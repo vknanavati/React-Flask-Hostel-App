@@ -7,6 +7,7 @@ function App() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("Form submitted with country:", country);
 
     // send the country name to the Flask backend
     try {
@@ -23,8 +24,11 @@ function App() {
         body: JSON.stringify({ country }),
       });
 
+      console.log("Response received:", res);
+
       // parses the JSON response from the server into a JS object
       const data = await res.json();
+      console.log("Data parsed:", data);
       //  updates the response state with the message from the server or a default message if no response is provided.
       // const data = { message: "Received country: France"};
       setResponse(data.message || "No response");
@@ -36,7 +40,7 @@ function App() {
   return (
     <Container>
       <Typography>Hostel Search</Typography>
-      <form>
+      <form onSubmit={handleSubmit}>
         <TextField
           type="text"
           placeholder="Enter country"
@@ -45,7 +49,6 @@ function App() {
         />
         <Button
           type="submit"
-          onSubmit={handleSubmit}
         >
           Submit
         </Button>
