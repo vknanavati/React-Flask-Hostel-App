@@ -53,7 +53,7 @@ function App() {
           Submit
         </Button>
       </form>
-      <Typography>{response}</Typography>
+
     </Container>
   );
 }
