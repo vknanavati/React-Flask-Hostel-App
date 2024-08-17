@@ -1,4 +1,4 @@
-import { Container, TextField, Button, Typography } from '@mui/material';
+import { Container, TextField, Button, Typography, FormControl, InputLabel, Select, MenuItem, Grid } from '@mui/material';
 import { useState } from 'react';
 
 function App() {
@@ -30,30 +30,57 @@ function App() {
       const data = await res.json();
       console.log("Data parsed:", data);
       //  updates the response state with the message from the server or a default message if no response is provided.
-      // const data = { message: "Received country: France"};
-      setResponse(data.message || "No response");
+      setResponse(data.cities || "No response");
     } catch (error) {
       setResponse("Error: Could not connect to server.");
     }
   };
 
+
   return (
     <Container>
       <Typography>Hostel Search</Typography>
-      <form onSubmit={handleSubmit}>
-        <TextField
-          type="text"
-          placeholder="Enter country"
-          value={country}
-          onChange={(e) => setCountry(e.target.value)}
-        />
-        <Button
-          type="submit"
-        >
-          Submit
-        </Button>
-      </form>
+      <Grid>
+        <form onSubmit={handleSubmit}>
+          <Grid>
+            <TextField
+              type="text"
+              placeholder="Enter country"
+              value={country}
+              onChange={(e) => setCountry(e.target.value)}
+            />
+            <Button
+              type="submit"
+            >
+              Submit
+            </Button>
+          </Grid>
+          {response && (
+          <Grid
+            marginTop={5}
+          >
+          <FormControl sx={{width: 180}}>
 
+            <InputLabel
+              sx={{
+                '&.MuiInputLabel-shrink':{
+                  color:"#00CCCC"
+                },
+                fontSize: 25
+              }}
+            >Choose City</InputLabel>
+            <Select
+              label="Choose City"
+            >
+              {response.map((choice, i)=>{
+                return <MenuItem key={i} value={choice}>{choice}</MenuItem>
+              })}
+            </Select>
+          </FormControl>
+          </Grid>
+          )}
+        </form>
+      </Grid>
     </Container>
   );
 }
