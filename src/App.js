@@ -60,11 +60,10 @@ function App() {
             marginTop={5}
           >
           <FormControl sx={{width: 180}}>
-
             <InputLabel
               sx={{
                 '&.MuiInputLabel-shrink':{
-                  color:"#00CCCC"
+                  color:"black"
                 },
                 fontSize: 25
               }}
