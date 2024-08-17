@@ -57,17 +57,10 @@ def get_country():
             city_results = get_cities(country, continent)
             return jsonify({"country": country, "continent": continent, "cities": city_results}) # noqa
 
-    # For demonstration, simply return the received country
-    # converts the python data into a JSON formatted string
-    # sets the Content-Type header to application/json
-    # tells the client that response being returned is in JSON format
-    # return jsonify({"message": f"Received country: {country}"})
-
 
 def get_continent(country):
     # item = value of k:v
     for item in country_dict.values():
-        # print(f"\nCountries in continent: {item}\n")
         # element represents the country in the list of countries from dictionary that country variable will be compared against # noqa
         for element in item:
             # country is the user's choice
@@ -78,10 +71,8 @@ def get_continent(country):
     return None
 
 
-city_list = []
-
-
 def get_cities(country, continent):
+    city_list = []
     # generates list of cities with hostels in that country
     url = f"https://www.hostelworld.com/st/hostels/{continent}/{country}/"
     print(f"\nURL to be opened: {url}\n")
