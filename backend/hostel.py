@@ -23,7 +23,7 @@ browser = webdriver.Chrome(
     service=service,
 )
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
 
 
 with open("continent_dict.json", encoding="UTF-8") as country_dict:
@@ -51,11 +51,12 @@ def get_country():
     country = data.get('country')
     print(f"country from JSON data received from user input: {country}")
 
-    if country:
-        continent = get_continent(country)
-        if continent:
-            city_results = get_cities(country, continent)
-            return jsonify({"country": country, "continent": continent, "cities": city_results}) # noqa
+    continent = get_continent(country)
+    city_results = get_cities(country, continent)
+    # jsonify is a Flask function that converts the python dictionary into a JSON-formatted string (JSON object) # noqa
+    # it also sets the 'Content-Type' header of the response to 'application/json' this tells the client that the content being returned is in JSON format # noqa
+    # jsonify returns a Flask response object that contains the JSON data and appropriate headers # noqa
+    return jsonify({"country": country, "continent": continent, "cities": city_results}) # noqa
 
 
 def get_continent(country):
@@ -97,6 +98,22 @@ def get_cities(country, continent):
     # browser.quit()
 
     return city_list
+
+
+@app.route('/get-user-city', methods=['POST'])
+def get_user_city():
+    data = request.json
+    print(f"\nData received from client after user selected city: {data}\n")
+
+    if not data:
+        return jsonify({"error": "no data received"}), 400
+
+    city = data.get('city')
+    if not city:
+        return jsonify({"error": "no city received"}), 400
+
+    result = {"city": city}
+    return jsonify(result), 200
 
 
 if __name__ == '__main__':
