@@ -4,6 +4,9 @@ import { useState } from 'react';
 function App() {
   const [country, setCountry] = useState("");
   const [response, setResponse] = useState("");
+  const [continent, setContinent] = useState("");
+  const [city, setCity] = useState("");
+  const [secondResponse, setSecondResponse] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,7 +23,7 @@ function App() {
         // actual data being sent to server
         // converts JSON object country into a JSON string format
         // '{"country": "Canada"}' is the result of JSON.stringify
-        // This line converts the JavaScript object { country } into a JSON string. In this object, country is the key, and its value is whatever the user typed in the text field.
+        // stringify converts the JavaScript object { country } into a JSON string. In this object, country is the key, and its value is whatever the user typed in the text field.
         body: JSON.stringify({ country }),
       });
 
@@ -29,13 +32,42 @@ function App() {
       // parses the JSON response from the server into a JS object
       const data = await res.json();
       console.log("Data parsed:", data);
-      //  updates the response state with the message from the server or a default message if no response is provided.
+      //  updates the response state with the city_list result from the server or a default message if no response is provided.
       setResponse(data.cities || "No response");
+      setContinent(data.continent)
     } catch (error) {
       setResponse("Error: Could not connect to server.");
     }
   };
 
+  const handleCityChoice = e => {
+    const selectedCity = e.target.value
+    setCity(selectedCity)
+    console.log("city chosen: ", selectedCity)
+    handleSelect(selectedCity)
+  }
+  const handleSelect = async (selectedCity) => {
+    try {
+      const res = await fetch('http://localhost:5000/get-user-city', {
+        method: 'POST',
+        //informs the server about the format of data being sent
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        // actual data being sent to server
+        // converts JSON object into a JSON string format
+        // stringify converts the JavaScript object { country } into a JSON string. In this object, country is the key, and its value is whatever the user typed in the text field.
+        body: JSON.stringify({ country, continent, city: selectedCity }),
+      });
+      console.log("Second response received:", res);
+
+      // parses the JSON response from the server into a JS object
+      const data = await res.json();
+      console.log("Hostel data parsed:", data);
+    } catch (error) {
+      setSecondResponse("Error: Could not connect to server.");
+    }
+  }
 
   return (
     <Container>
@@ -70,6 +102,8 @@ function App() {
             >Choose City</InputLabel>
             <Select
               label="Choose City"
+              value={city}
+              onChange={e=>handleCityChoice(e)}
             >
               {response.map((choice, i)=>{
                 return <MenuItem key={i} value={choice}>{choice}</MenuItem>
