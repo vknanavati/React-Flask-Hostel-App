@@ -84,54 +84,109 @@ function App() {
 
   return (
     <Container>
-      <Typography>Hostel Search</Typography>
       <Grid>
+        <Typography
+          variant="h4"
+          sx={{
+            marginTop:7,
+            marginBottom: 5,
+            color: "#BF4FB9",
+            fontWeight: 700,
+            textAlign: "center"
+
+          }}
+        >
+          Hostel Search
+        </Typography>
         <form onSubmit={handleSubmit}>
-          <Grid>
-            <TextField
-              type="text"
-              placeholder="Enter country"
-              value={country}
-              onChange={(e) => setCountry(e.target.value)}
-            />
-            <Button
-              type="submit"
-            >
-              Submit
-            </Button>
+          <Grid
+            container
+            justifyContent={"center"}
+            alignItems={"center"}
+            sx={{marginBottom: 8}}
+          >
+            <Grid>
+              <TextField
+                sx={{
+                  "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#BF4FB9"
+                  },
+                  input: {
+                    fontSize: 25
+                  }
+                }}
+                type="text"
+                placeholder="Enter country"
+                value={country}
+                onChange={(e) => setCountry(e.target.value)}
+              />
+            </Grid>
+            <Grid>
+              <Button
+                type="submit"
+                variant="contained"
+                size="medium"
+                sx={{
+                  marginLeft: 2,
+                  backgroundColor: "#BF4FB9",
+                  "&:hover": {
+                    backgroundColor: "#BF4FB9"
+                  },
+                  fontSize: 20,
+                  fontWeight: 700
+                }}
+              >
+                Submit
+              </Button>
+            </Grid>
           </Grid>
+
           {response && (
           <Grid
+            container
             marginTop={5}
           >
-          <FormControl sx={{width: 180}}>
-            <InputLabel
-              sx={{
-                '&.MuiInputLabel-shrink':{
-                  color:"black"
-                },
-                fontSize: 25
-              }}
-            >Choose City</InputLabel>
-            <Select
-              label="Choose City"
-              value={city}
-              onChange={e=>handleCityChoice(e)}
+            <Grid
+              container
+              justifyContent={"center"}
             >
-              {response.map((choice, i)=>{
-                return <MenuItem key={i} value={choice}>{choice}</MenuItem>
-              })}
-            </Select>
-          </FormControl>
-          {graph1 && <img src={graph1} alt="hostel-graph"/>}
-          {graph2 && <img src={graph2} alt="hostel-graph"/>}
-          {graph3 && <img src={graph3} alt="hostel-graph"/>}
-          {graph4 && <img src={graph4} alt="hostel-graph"/>}
-          {graph5 && <img src={graph5} alt="hostel-graph"/>}
-          {graph6 && <img src={graph6} alt="hostel-graph"/>}
-          {graph7 && <img src={graph7} alt="hostel-graph"/>}
+              <FormControl sx={{width: 290}}>
+                <InputLabel
+                  sx={{
+                    '&.MuiInputLabel-shrink':{
+                      color:"black"
+                    },
+                    fontSize: 20
+                  }}
+                >Choose City</InputLabel>
+                <Select
+                  sx={{
+                    "&.Mui-focused .MuiOutlinedInput-notchedOutline":{
+                      borderColor: "#BF4FB9"
+                    },
+                    fontSize: 25
+                  }}
+                  label="Choose City"
+                  value={city}
+                  onChange={e=>handleCityChoice(e)}
+                >
+                  {response.map((choice, i)=>{
+                    return <MenuItem key={i} value={choice}>{choice}</MenuItem>
+                  })}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid marginTop={10}>
+              {graph1 && <Grid sx={{mb:9}}><img src={graph1} alt="hostel-graph"/></Grid>}
+              {graph2 && <Grid sx={{mb:9}}><img src={graph2} alt="hostel-graph"/></Grid>}
+              {graph3 && <Grid sx={{mb:9}}><img src={graph3} alt="hostel-graph"/></Grid>}
+              {graph4 && <Grid sx={{mb:9}}><img src={graph4} alt="hostel-graph"/></Grid>}
+              {graph5 && <Grid sx={{mb:9}}><img src={graph5} alt="hostel-graph"/></Grid>}
+              {graph6 && <Grid sx={{mb:9}}><img src={graph6} alt="hostel-graph"/></Grid>}
+              {graph7 && <Grid sx={{mb:9}}><img src={graph7} alt="hostel-graph"/></Grid>}
           </Grid>
-          )}
+        </Grid>
+        )}
         </form>
       </Grid>
     </Container>
