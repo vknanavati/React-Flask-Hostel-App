@@ -13,6 +13,7 @@ from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 import pandas as pd
 from random import randint
+import subprocess
 
 chrome_options = Options()
 options = webdriver.ChromeOptions()
@@ -28,7 +29,7 @@ browser = webdriver.Chrome(
     options=options,
     service=service,
 )
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
 
 
@@ -127,6 +128,18 @@ def get_user_city():
     # print(df)
     df.to_csv("Hostel_City_Ratings.csv")
     print("\nCSV created! YAY!!\n")
+
+    try:
+        subprocess.run([
+            "jupyter", "nbconvert",
+            "--to", "notebook",
+            "--execute",
+            "--inplace",
+            "hostel_graphs.ipynb"
+        ], check=True)
+        print("Notebook ran succesfully")
+    except subprocess.CalledProcessError as e:
+        print(f"Notebook error {e}")
 
     if not data:
         return jsonify({"error": "no data received"}), 400
