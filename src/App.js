@@ -27,7 +27,6 @@ function App() {
           'Content-Type': 'application/json',
         },
         // actual data being sent to server
-        // converts JSON object country into a JSON string format
         // '{"country": "Canada"}' is the result of JSON.stringify
         // stringify converts the JavaScript object { country } into a JSON string. In this object, country is the key, and its value is whatever the user typed in the text field.
         body: JSON.stringify({ country }),
@@ -54,22 +53,15 @@ function App() {
   }
   const handleSelect = async (selectedCity) => {
     try {
-      const res = await fetch('http://localhost:5000/get-user-city', {
+        await fetch('http://localhost:5000/get-user-city', {
         method: 'POST',
-        //informs the server about the format of data being sent
         headers: {
           'Content-Type': 'application/json',
         },
-        // actual data being sent to server
-        // converts JSON object into a JSON string format
-        // stringify converts the JavaScript object { country } into a JSON string. In this object, country is the key, and its value is whatever the user typed in the text field.
         body: JSON.stringify({ country, continent, city: selectedCity }),
       });
-      console.log("Second response received:", res);
 
-      // parses the JSON response from the server into a JS object
-      const data = await res.json();
-      console.log("Hostel data parsed:", data);
+
       setGraph1('/static/images/graph1.png');
       setGraph2('/static/images/graph2.png');
       setGraph3('/static/images/graph3.png');
