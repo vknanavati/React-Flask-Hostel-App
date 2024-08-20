@@ -6,7 +6,13 @@ function App() {
   const [response, setResponse] = useState("");
   const [continent, setContinent] = useState("");
   const [city, setCity] = useState("");
-  const [graph, setGraph] = useState("");
+  const [graph1, setGraph1] = useState("");
+  const [graph2, setGraph2] = useState("");
+  const [graph3, setGraph3] = useState("");
+  const [graph4, setGraph4] = useState("");
+  const [graph5, setGraph5] = useState("");
+  const [graph6, setGraph6] = useState("");
+  const [graph7, setGraph7] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -64,7 +70,13 @@ function App() {
       // parses the JSON response from the server into a JS object
       const data = await res.json();
       console.log("Hostel data parsed:", data);
-      setGraph('/static/images/graph1.png');
+      setGraph1('/static/images/graph1.png');
+      setGraph2('/static/images/graph2.png');
+      setGraph3('/static/images/graph3.png');
+      setGraph4('/static/images/graph4.png');
+      setGraph5('/static/images/graph5.png');
+      setGraph6('/static/images/graph6.png');
+      setGraph7('/static/images/graph7.png');
     } catch (error) {
       console.log(error)
     }
@@ -111,7 +123,13 @@ function App() {
               })}
             </Select>
           </FormControl>
-          {graph && <img src={graph} alt="hostel-graph"/>}
+          {graph1 && <img src={graph1} alt="hostel-graph"/>}
+          {graph2 && <img src={graph2} alt="hostel-graph"/>}
+          {graph3 && <img src={graph3} alt="hostel-graph"/>}
+          {graph4 && <img src={graph4} alt="hostel-graph"/>}
+          {graph5 && <img src={graph5} alt="hostel-graph"/>}
+          {graph6 && <img src={graph6} alt="hostel-graph"/>}
+          {graph7 && <img src={graph7} alt="hostel-graph"/>}
           </Grid>
           )}
         </form>
