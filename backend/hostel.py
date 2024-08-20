@@ -30,7 +30,7 @@ browser = webdriver.Chrome(
     service=service,
 )
 app = Flask(__name__, static_folder='static')
-CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
+CORS(app)
 
 
 with open("continent_dict.json", encoding="UTF-8") as country_dict:
@@ -54,15 +54,15 @@ def get_country():
     # it parses the request body as JSON and returns it as a python dictionary data: {'country': 'Canada'} # noqa
     data = request.json
     print(f"data: {data}")
-    # data.get('country') retrieves the value associated with the key 'country' from the JSON data # noqa
+    # data.get('country') retrieves the value associated with the key 'country' # noqa
     country = data.get('country')
-    print(f"country from JSON data received from user input: {country}")
+    print(f"country from user input: {country}")
 
+    # get_continent uses the country variable to get the continent
     continent = get_continent(country)
+    # city_results uses the country and continent variables to call hostel world website # noqa
     city_results = get_cities(country, continent)
 
-    if not city_results:  # Check if city_results is empty or None
-        city_results = []
     # jsonify is a Flask function that converts the python dictionary into a JSON-formatted string (JSON object) # noqa
     # it also sets the 'Content-Type' header of the response to 'application/json' this tells the client that the content being returned is in JSON format # noqa
     # jsonify returns a Flask response object that contains the JSON data and appropriate headers # noqa
