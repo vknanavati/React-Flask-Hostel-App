@@ -6,6 +6,7 @@ function App() {
   const [response, setResponse] = useState("");
   const [continent, setContinent] = useState("");
   const [city, setCity] = useState("");
+  const [graph, setGraph] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -63,6 +64,7 @@ function App() {
       // parses the JSON response from the server into a JS object
       const data = await res.json();
       console.log("Hostel data parsed:", data);
+      setGraph('/static/images/graph1.png');
     } catch (error) {
       console.log(error)
     }
@@ -109,6 +111,7 @@ function App() {
               })}
             </Select>
           </FormControl>
+          {graph && <img src={graph} alt="hostel-graph"/>}
           </Grid>
           )}
         </form>
