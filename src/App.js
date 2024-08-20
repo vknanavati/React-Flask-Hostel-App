@@ -6,7 +6,6 @@ function App() {
   const [response, setResponse] = useState("");
   const [continent, setContinent] = useState("");
   const [city, setCity] = useState("");
-  const [secondResponse, setSecondResponse] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -65,7 +64,7 @@ function App() {
       const data = await res.json();
       console.log("Hostel data parsed:", data);
     } catch (error) {
-      setSecondResponse("Error: Could not connect to server.");
+      console.log(error)
     }
   }
 
