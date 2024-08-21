@@ -165,7 +165,7 @@ function App() {
             container
             justifyContent={"center"}
             alignItems={"center"}
-            sx={{marginBottom: 8}}
+            sx={{marginBottom: 7}}
           >
             <Grid>
               <TextField
@@ -202,7 +202,16 @@ function App() {
               </Button>
             </Grid>
           </Grid>
-          {error && <p sx={{ color: 'red' }}>{error}</p>}
+          {error &&
+            <Typography
+              color={"red"}
+              textAlign={"center"}
+              fontSize={25}
+              marginLeft={"-30px"}
+            >
+              {error}
+            </Typography>
+          }
           {response && (
           <Grid
             container
