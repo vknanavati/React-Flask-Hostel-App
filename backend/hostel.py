@@ -1,9 +1,8 @@
 import json
 import time
 from time import sleep
-import requests
 import re
-from urllib.request import urlopen
+import requests
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from selenium import webdriver
@@ -148,17 +147,12 @@ def city_page(continent, country, city):
     # replaces any white space with %20
     url = url.replace(" ", "%20")
     print(url)
-    html = urlopen(url)
-    # page = requests.get(url, timeout=10)h
-
-    soup = BeautifulSoup(html, "html.parser")
-    soup.prettify()
 
     browser.get(url)
     time.sleep(4)
 
     # def pagination_count():
-    if soup.find("section", {"name": "pagination"}) is not None:
+    if browser.find_elements(By.XPATH, "//section[@name='pagination']"):
         print("\nDetected for pagination.\n")
 
         time.sleep(8)
