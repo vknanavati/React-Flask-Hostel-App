@@ -13,6 +13,7 @@ function App() {
   const [graph5, setGraph5] = useState("");
   const [graph6, setGraph6] = useState("");
   const [graph7, setGraph7] = useState("");
+  const [graph8, setGraph8] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -69,13 +70,24 @@ function App() {
       setGraph5('/static/images/graph5.png');
       setGraph6('/static/images/graph6.png');
       setGraph7('/static/images/graph7.png');
+      setGraph8('/static/images/graph8.png');
     } catch (error) {
       console.log(error)
     }
   }
 
   return (
-    <Container>
+    <Container
+    sx={{
+      paddingBottom: 20,
+      marginLeft: "auto",
+      marginRight: "auto",
+      paddingLeft: 10,
+      paddingRight: 10,
+      maxWidth: "90vw",
+    }}
+    maxWidth={"false"}
+    >
       <Grid>
         <Typography
           variant="h4"
@@ -88,8 +100,55 @@ function App() {
 
           }}
         >
-          Hostel Search
+          Hostel Ratings Comparison
         </Typography>
+        <Grid marginBottom={6}>
+          <Typography>
+          Welcome to the Hostel Ratings Comparison. Here you will be able to see bar graphs depicting the top hostels in the city of your choice.
+          The first graph will rate the top 10 hostels by average overall rating. The subsequent graphs rank each hostel by their rating in specific categories.
+          The categories shown are Security, Location, Staff, Atmosphere, Cleanliness, Value, and Facilities.
+          <br/>
+          <br/>
+          </Typography>
+          <Typography variant="h6" >
+          How to Use this App
+          </Typography>
+          <Typography>
+          <br/>
+          1. Type the country of your choice into the input box and click 'submit'.<br/>
+          2. Wait for a dropdown box to appear. This may take a few moments. <br/>
+          Once the dropdown menu appears you will be able to select a city. <br/>
+          3. Once you select a city, sit back and wait for the graphs to appear.
+          <br/>
+          <br/>
+          </Typography>
+          <Typography variant="h6">
+          How it Works
+          </Typography>
+          <Typography>
+          <br/>
+          The frontend portion of this application uses React which is a JavaScript library for building user interfaces(UI).
+          When the user enters a country name in the input field of the form, the app uses Fetch API to send this country name to the backend.
+          In this case the Fetch API makes a POST request from the React app to the Flask server (backend).
+          The app then updates the user interface to display a dropdown menu of cities. This list of cities was received from the server.
+          Once a city is selected, a second POST request is made to the server. This triggers the backend to scrape the Hostelworld website, process the data,
+          and generate graphs. The graphs are displayed on the UI once the server processes the data.
+          <br/>
+          <br/>
+          When the Flask server receives the country name, the Flask routes handle this request. It uses a function to determine the corresponding continent.
+          This country name and continent name are then used by Selenium in order to open the Hostelworld website. Selenium handles the dynamic web content
+          such as clicking buttons and selecting from dropdown menus. BeautifulSoup is then used to parse the HTML content collected by Selenium.
+          This content includes the list of cities in the selected country and the hostel names and ratings.
+          <br/>
+          <br/>
+          Once the data is scraped, Pandas, a data analysis library in Python, organizes the hostel names and ratings. This data is stored in a DataFrame which is then saves as a CSV file.
+          <br/>
+          <br/>
+          Finally, Jupyter notebook is automatically run by Flask to generate the graphs that visualize the hostel ratings.
+          Libraries like Seaborn and Matplotlib compare the ratings across the given categories (e.g., Security, Location, Cleanliness).
+          The graphs are saves as png files which are then displayed on the frontend.
+          </Typography>
+        </Grid>
         <form onSubmit={handleSubmit}>
           <Grid
             container
@@ -176,6 +235,7 @@ function App() {
               {graph5 && <Grid sx={{mb:9}}><img src={graph5} alt="hostel-graph"/></Grid>}
               {graph6 && <Grid sx={{mb:9}}><img src={graph6} alt="hostel-graph"/></Grid>}
               {graph7 && <Grid sx={{mb:9}}><img src={graph7} alt="hostel-graph"/></Grid>}
+              {graph8 && <Grid sx={{mb:9}}><img src={graph8} alt="hostel-graph"/></Grid>}
           </Grid>
         </Grid>
         )}
