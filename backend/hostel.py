@@ -87,12 +87,7 @@ def get_cities(country, continent):
     # generates list of cities with hostels in that country
     url = f"https://www.hostelworld.com/st/hostels/{continent}/{country}/"
     print(f"\nURL to be opened: {url}\n")
-    html = urlopen(url)
-    soup = BeautifulSoup(html, "html.parser")
-    soup.prettify()
-
     browser.get(url)
-    # time.sleep(4)
 
     results = browser.find_elements(
         By.XPATH,
@@ -103,9 +98,6 @@ def get_cities(country, continent):
         title = result.get_attribute("title")
         city_list.append(title)
     print(f"\nList of cities: {city_list}\n")
-    # print(*city_list, sep="\n")
-    # time.sleep(5)
-    # browser.quit()
 
     return city_list
 
