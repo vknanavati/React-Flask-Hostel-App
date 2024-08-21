@@ -1,12 +1,14 @@
-import { Container, TextField, Button, Typography, FormControl, InputLabel, Select, MenuItem, Grid } from '@mui/material';
+import { Container, TextField, Button, Typography, FormControl, InputLabel, Select, MenuItem, Grid, CircularProgress} from '@mui/material';
 import { useState } from 'react';
 
 function App() {
   const [country, setCountry] = useState("");
-  const [response, setResponse] = useState("");
-  const [error, setError] = useState("");
   const [continent, setContinent] = useState("");
   const [city, setCity] = useState("");
+  const [response, setResponse] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [secondLoad, setSecondLoad] = useState(false);
   const [graph1, setGraph1] = useState("");
   const [graph2, setGraph2] = useState("");
   const [graph3, setGraph3] = useState("");
@@ -19,7 +21,7 @@ function App() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Form submitted with country:", country);
-
+    setLoading(true)
     setError("")
     // send the country name to the Flask backend
     try {
@@ -40,7 +42,7 @@ function App() {
       if (!res.ok) { // Check if the response status code is not in the range 200-299
         const errorData = await res.json();
         setError(errorData.error || "An unknown error occurred.");
-        setResponse(""); // Clear previous response
+        setLoading(false)
         return;
       }
 
@@ -50,10 +52,9 @@ function App() {
       //  updates the response state with the city_list result from the server or a default message if no response is provided.
       setResponse(data.cities || "No response");
       setContinent(data.continent);
-      setError("");
+      setLoading(false)
     } catch (error) {
       setError("Error: Could not connect to server.");
-      setResponse("");
     }
   };
 
@@ -62,6 +63,7 @@ function App() {
     setCity(selectedCity)
     console.log("city chosen: ", selectedCity)
     handleSelect(selectedCity)
+    setSecondLoad(true)
   }
   const handleSelect = async (selectedCity) => {
     try {
@@ -82,6 +84,7 @@ function App() {
       setGraph6('/static/images/graph6.png');
       setGraph7('/static/images/graph7.png');
       setGraph8('/static/images/graph8.png');
+      setSecondLoad(false)
     } catch (error) {
       console.log(error)
     }
@@ -202,6 +205,12 @@ function App() {
               </Button>
             </Grid>
           </Grid>
+          {loading &&
+            <Grid>
+              <CircularProgress></CircularProgress>
+            </Grid>
+          }
+
           {error &&
             <Typography
               color={"red"}
@@ -247,6 +256,11 @@ function App() {
                 </Select>
               </FormControl>
             </Grid>
+            {secondLoad &&
+              <Grid>
+                <CircularProgress></CircularProgress>
+              </Grid>
+            }
             <Grid marginTop={10}>
               {graph1 && <Grid sx={{mb:9}}><img src={graph1} alt="hostel-graph"/></Grid>}
               {graph2 && <Grid sx={{mb:9}}><img src={graph2} alt="hostel-graph"/></Grid>}
