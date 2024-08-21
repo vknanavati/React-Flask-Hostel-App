@@ -54,11 +54,13 @@ def get_country():
     data = request.json
     print(f"data: {data}")
     # data.get('country') retrieves the value associated with the key 'country' # noqa
-    country = data.get('country')
+    country = data.get('country').capitalize()
     print(f"country from user input: {country}")
 
     # get_continent uses the country variable to get the continent
     continent = get_continent(country)
+    if not continent:
+        return jsonify({"error": "Invalid country name. Please check your input."}), 400 # noqa
     # city_results uses the country and continent variables to call hostel world website # noqa
     city_results = get_cities(country, continent)
 
