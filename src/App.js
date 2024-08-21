@@ -206,8 +206,12 @@ function App() {
             </Grid>
           </Grid>
           {loading &&
-            <Grid>
-              <CircularProgress></CircularProgress>
+            <Grid
+              container
+              justifyContent={"center"}
+              marginLeft={"-50px"}
+            >
+              <CircularProgress color="secondary"/>
             </Grid>
           }
 
@@ -257,8 +261,12 @@ function App() {
               </FormControl>
             </Grid>
             {secondLoad &&
-              <Grid>
-                <CircularProgress></CircularProgress>
+              <Grid
+                container
+                justifyContent={"center"}
+                paddingTop={5}
+              >
+                <CircularProgress color="secondary"/>
               </Grid>
             }
             <Grid marginTop={10}>
