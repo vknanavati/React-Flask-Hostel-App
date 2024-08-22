@@ -1,33 +1,12 @@
 import json
-import time
-from time import sleep
 import re
+import subprocess
 import requests
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 import pandas as pd
-from random import randint
-import subprocess
 
-chrome_options = Options()
-options = webdriver.ChromeOptions()
-options.add_argument("--headless")
-options.add_argument("start-maximized")
-options.add_experimental_option("excludeSwitches", ["enable-automation"])
-options.add_experimental_option("detach", True)
-options.add_experimental_option("useAutomationExtension", False)
-CHROME_DRIVER_PATH = '/usr/local/bin/chromedriver'
-service = Service(executable_path=CHROME_DRIVER_PATH)
-
-browser = webdriver.Chrome(
-    options=options,
-    service=service,
-)
 app = Flask(__name__, static_folder='static')
 CORS(app)
 
@@ -88,16 +67,21 @@ def get_cities(country, continent):
     # generates list of cities with hostels in that country
     url = f"https://www.hostelworld.com/st/hostels/{continent}/{country}/"
     print(f"\nURL to be opened: {url}\n")
-    browser.get(url)
 
-    results = browser.find_elements(
-        By.XPATH,
-        "//div[@class='average-city-prices-list']/a"
-    )
+    response = requests.get(url, timeout=10)
+    response.raise_for_status()
+    html_content = response.text
 
-    for result in results:
-        title = result.get_attribute("title")
+    soup = BeautifulSoup(html_content, "html.parser")
+
+    parent_div = soup.find("div", class_="average-city-prices-list")
+
+    city_links = parent_div.find_all("a")
+
+    for link in city_links:
+        title = link.get("title")
         city_list.append(title)
+
     print(f"\nList of cities: {city_list}\n")
 
     return city_list
@@ -150,20 +134,17 @@ def city_page(continent, country, city):
     url = url.replace(" ", "%20")
     print(url)
 
-    browser.get(url)
-    time.sleep(4)
+    response = requests.get(url, timeout=10)
+    response.raise_for_status()
 
-    # def pagination_count():
-    if browser.find_elements(By.XPATH, "//section[@name='pagination']"):
-        print("\nDetected for pagination.\n")
+    soup = BeautifulSoup(response.text, 'html.parser')
 
-        time.sleep(8)
-        results = browser.find_element(
-            By.XPATH,
-            "//main/div[3]/section",
-        )
-        print(results)
-        raw_string = results.get_attribute("innerText").replace("\n", "")
+    pagination_section = soup.find("section", {"name": "pagination"})
+
+    if pagination_section:
+        print("\nDetected pagination.\n")
+
+        raw_string = pagination_section.get_text(separator="").replace("\n", "") # noqa
         digit_string = re.sub("[^0-9]", "", raw_string)
         # digit_list = number of pages ex. London has 4 pages worth of hostels
         # so digit_list = [1, 2, 3, 4]
@@ -172,13 +153,10 @@ def city_page(continent, country, city):
         print("\nDetermined number of pages.\n")
         print(f"\ndigit_list is: {digit_list}\n")
 
-        time.sleep(5)
-
         # url_list initially creates template hostel link for each element in digit list # noqa
 
         url_list = [url for count in enumerate(digit_list)]
 
-        # print([url for count in range(list_len)])
         # page number syntax is added to [1:]
         # url_list: [
         #   'https://www.hostelworld.com/st/hostels/europe/england/london/',
@@ -207,8 +185,7 @@ def links_city_hostels(paginated_list):
 
     for index, dummy in enumerate(paginated_list):
         page = requests.get(paginated_list[index], timeout=10)
-        soup = BeautifulSoup(page.content, "html.parser")
-        soup.prettify()
+        soup = BeautifulSoup(page.text, "html.parser")
 
         link_elements = soup.find_all("div", class_="property-listing-cards")
         # scrape each page for links for each hostel listed
@@ -217,7 +194,6 @@ def links_city_hostels(paginated_list):
             for result in results:
                 link_url = result["href"]
                 links_list.append(link_url)
-        browser.quit()
 
     url_count = len(links_list)
     print(f"\nlinks_list = {links_list}\n")
@@ -232,8 +208,7 @@ def city_hostel_dict(hostels_links):
     for url in range(0, hostels_links):
         page = requests.get(links_list[url], timeout=10)
 
-        soup = BeautifulSoup(page.content, "html.parser")
-        soup.prettify()
+        soup = BeautifulSoup(page.text, "html.parser")
 
         hostel_name = soup.find("h1").text.strip()
         name_list.append(hostel_name)
@@ -254,13 +229,7 @@ def city_hostel_dict(hostels_links):
 
         dict_length = len(ratings_dict)
 
-        seconds = randint(2, 10)
-        sleep(seconds)
-
         print(f"\nProgress: {dict_length}/{hostels_links} ")
-        print(f"I waited {seconds} seconds\n")
-
-        sleep(randint(2, 10))
 
     no_ratings_dict = {key: value for (key, value) in ratings_dict.items() if not value} # noqa
 
