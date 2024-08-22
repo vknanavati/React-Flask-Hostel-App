@@ -150,8 +150,7 @@ function App() {
             <br/>
             <br/>
             When the Flask server receives the country name, the Flask routes handle this request. It uses a function to determine the corresponding continent.
-            This country name and continent name are then used by Selenium in order to open the Hostelworld website. Selenium handles the dynamic web content
-            such as clicking buttons and selecting from dropdown menus. BeautifulSoup is then used to parse the HTML content collected by Selenium.
+            This country name and continent name are then used by BeautifulSoup to access the Hostelworld website and parse the HTML content.
             This content includes the list of cities in the selected country and the hostel names and ratings.
             <br/>
             <br/>
