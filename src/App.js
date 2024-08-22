@@ -7,7 +7,7 @@ function App() {
   const [city, setCity] = useState("");
   const [response, setResponse] = useState("");
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [secondLoad, setSecondLoad] = useState(false);
   const [graph1, setGraph1] = useState("");
   const [graph2, setGraph2] = useState("");
@@ -108,7 +108,7 @@ function App() {
           sx={{
             marginTop:7,
             marginBottom: 5,
-            color: "#BF4FB9",
+            color: "#EF6AE8",
             fontWeight: 700,
             textAlign: "center"
 
@@ -160,7 +160,7 @@ function App() {
             <br/>
             Finally, Jupyter notebook is automatically run by Flask to generate the graphs that visualize the hostel ratings.
             Libraries like Seaborn and Matplotlib compare the ratings across the given categories (e.g., Security, Location, Cleanliness).
-            The graphs are saves as png files which are then displayed on the frontend.
+            The graphs are saved as png files which are then displayed on the frontend.
           </Typography>
         </Grid>
         <form onSubmit={handleSubmit}>
@@ -174,7 +174,7 @@ function App() {
               <TextField
                 sx={{
                   "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                    borderColor: "#BF4FB9"
+                    borderColor: "#EF6AE8"
                   },
                   input: {
                     fontSize: 25
@@ -193,9 +193,9 @@ function App() {
                 size="medium"
                 sx={{
                   marginLeft: 2,
-                  backgroundColor: "#BF4FB9",
+                  backgroundColor: "#EF6AE8",
                   "&:hover": {
-                    backgroundColor: "#BF4FB9"
+                    backgroundColor: "#EF6AE8"
                   },
                   fontSize: 20,
                   fontWeight: 700
@@ -211,7 +211,7 @@ function App() {
               justifyContent={"center"}
               marginLeft={"-50px"}
             >
-              <CircularProgress color="secondary"/>
+              <CircularProgress size="3rem" sx={{color: "#EF6AE8" }}/>
             </Grid>
           }
 
@@ -266,7 +266,7 @@ function App() {
                 justifyContent={"center"}
                 paddingTop={5}
               >
-                <CircularProgress color="secondary"/>
+                <CircularProgress size="3rem" sx={{color: "#EF6AE8" }}/>
               </Grid>
             }
             <Grid marginTop={10}>
