@@ -1,5 +1,6 @@
-import { Container, TextField, Button, Typography, FormControl, InputLabel, Select, MenuItem, Grid, CircularProgress} from '@mui/material';
+import { Container, TextField, Button, Typography, FormControl, InputLabel, Select, MenuItem, Grid, CircularProgress, Paper} from '@mui/material';
 import { useState } from 'react';
+import "./App.css"
 
 function App() {
   const [country, setCountry] = useState("");
@@ -117,6 +118,13 @@ function App() {
           Hostel Ratings Comparison
         </Typography>
         <Grid marginBottom={6}>
+        <Paper
+          elevation={5}
+          sx={{
+            paddingX: 10,
+            paddingY: 5
+          }}
+        >
           <Typography>
             Welcome to the Hostel Ratings Comparison. Here you will be able to see bar graphs depicting the top hostels in the city of your choice.
             The first graph will rate the top 10 hostels by average overall rating. The subsequent graphs rank each hostel by their rating in specific categories.
@@ -161,6 +169,7 @@ function App() {
             Libraries like Seaborn and Matplotlib compare the ratings across the given categories (e.g., Security, Location, Cleanliness).
             The graphs are saved as png files which are then displayed on the frontend.
           </Typography>
+        </Paper>
         </Grid>
         <form onSubmit={handleSubmit}>
           <Grid
@@ -176,8 +185,11 @@ function App() {
                     borderColor: "#EF6AE8"
                   },
                   input: {
-                    fontSize: 25
-                  }
+                    fontSize: 25,
+                    color: "black",
+                    background: "white"
+                  },
+                  fieldset: { borderColor: "black" }
                 }}
                 type="text"
                 placeholder="Enter country"
@@ -232,22 +244,23 @@ function App() {
             <Grid
               container
               justifyContent={"center"}
+              marginLeft={"-40px"}
             >
-              <FormControl sx={{width: 290}}>
+              <FormControl sx={{width: 290, background: "white"}}>
                 <InputLabel
                   sx={{
                     '&.MuiInputLabel-shrink':{
                       color:"black"
                     },
-                    fontSize: 20
+                    fontSize: 20,
                   }}
                 >Choose City</InputLabel>
                 <Select
                   sx={{
                     "&.Mui-focused .MuiOutlinedInput-notchedOutline":{
-                      borderColor: "#BF4FB9"
+                      borderColor: "#EF6AE8",
                     },
-                    fontSize: 25
+                    fontSize: 25,
                   }}
                   label="Choose City"
                   value={city}
@@ -268,7 +281,7 @@ function App() {
                 <CircularProgress size="3rem" sx={{color: "#EF6AE8" }}/>
               </Grid>
             }
-            <Grid marginTop={10}>
+            <Grid container justifyContent={"center"} marginTop={10}>
               {graph1 && <Grid sx={{mb:9}}><img src={graph1} alt="hostel-graph"/></Grid>}
               {graph2 && <Grid sx={{mb:9}}><img src={graph2} alt="hostel-graph"/></Grid>}
               {graph3 && <Grid sx={{mb:9}}><img src={graph3} alt="hostel-graph"/></Grid>}
