@@ -7,7 +7,7 @@ function App() {
   const [city, setCity] = useState("");
   const [response, setResponse] = useState("");
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [secondLoad, setSecondLoad] = useState(false);
   const [graph1, setGraph1] = useState("");
   const [graph2, setGraph2] = useState("");
